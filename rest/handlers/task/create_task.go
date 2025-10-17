@@ -10,4 +10,5 @@ type CreateTask struct {
 	Status      string `json:"status" db:"status"`
 }
 
-func (h *Handler) CreateTask(w http.ResponseWriter, r *http.Request) {}
+func (h *Handler) CreateTask(w http.ResponseWriter, r *http.Request) {
+}

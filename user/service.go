@@ -6,7 +6,7 @@ type service struct {
 	userRepo UserRepo
 }
 
-func NewUserRepo(userRepo UserRepo) Service {
+func NewService(userRepo UserRepo) Service {
 	return &service{
 		userRepo: userRepo,
 	}
@@ -24,6 +24,6 @@ func (s *service) Get(ID int) (*domain.User, error) {
 func (s *service) Delete(ID int) (*domain.User, error) {
 	return s.userRepo.Delete(ID)
 }
-func (s *service) Update(ID int) (*domain.User, error) {
-	return s.userRepo.Update(ID)
+func (s *service) Update(user domain.User) (*domain.User, error) {
+	return s.userRepo.Update(user)
 }

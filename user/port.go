@@ -13,6 +13,6 @@ type Service interface {
 	Register(u domain.User) (*domain.User, error)
 	Login(email string, password string) (string, error)
 	Get(ID int) (*domain.User, error)
-	Update(ID int) (*domain.User, error)
+	Update(domain.User) (*domain.User, error)
 	Delete(ID int) (*domain.User, error)
 }

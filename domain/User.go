@@ -7,3 +7,4 @@ type User struct {
 	Password string `json:"password" db:"password"`
 	IsAdmin  bool `json:"is_admin" db:"is_admin"`
 }
+
