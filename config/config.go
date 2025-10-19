@@ -77,7 +77,7 @@ func loadConfig() {
 		log.Println("DB port is required")
 		os.Exit(1)
 	}
-	dbPrt, err := strconv.ParseInt(dbPort, 64, 10)
+	dbPrt, err := strconv.ParseInt(dbPort, 10, 64)
 	if err != nil {
 		log.Println("DB Port is should be a number")
 		os.Exit(1)
@@ -87,7 +87,7 @@ func loadConfig() {
 		log.Println("Server port is required!")
 		os.Exit(1)
 	}
-	port, err := strconv.ParseInt(httpPort, 64, 10)
+	port, err := strconv.ParseInt(httpPort, 10, 64)
 	if err != nil {
 		log.Println("Server Port is should be a number")
 		os.Exit(1)
