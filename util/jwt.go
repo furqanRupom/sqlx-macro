@@ -35,14 +35,21 @@ func CreateToken(c Claims, secret string) (string, error) {
 	return tokenString, nil
 
 }
-func VerifyToken(tokenString string, secret string) (*Claims, error) {
+
+func VerifyMethod(secret string) jwt.Keyfunc {
 	secretByte := []byte(secret)
-	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(t *jwt.Token) (any, error) {
-		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
+
+	return func(t *jwt.Token) (interface{}, error) {
+		_, ok := t.Method.(*jwt.SigningMethodHMAC)
+		if !ok {
 			return nil, errors.New("unexpected signing method")
 		}
 		return secretByte, nil
-	})
+	}
+}
+
+func VerifyToken(tokenString string, secret string) (*Claims, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, VerifyMethod(secret))
 	if err != nil {
 		return nil, err
 	}
@@ -51,5 +58,7 @@ func VerifyToken(tokenString string, secret string) (*Claims, error) {
 	if !ok || !token.Valid {
 		return nil, errors.New("invalid token")
 	}
+
 	return claims, nil
 }
+
