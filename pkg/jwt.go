@@ -1,4 +1,4 @@
-package util
+package pkg
 
 import (
 	"errors"
@@ -8,7 +8,7 @@ import (
 )
 
 type Claims struct {
-	Sub   int    `json:"id"`
+	Sub   int    `json:"sub"`
 	Name  string `json:"name"`
 	Email string `json:"email"`
 	jwt.RegisteredClaims

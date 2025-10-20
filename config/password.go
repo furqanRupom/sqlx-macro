@@ -1,9 +1,10 @@
 package config
 
 import (
-	"github.com/furqanrupom/sqlx-macro/util"
 	"log"
 	"os"
+
+	"github.com/furqanrupom/sqlx-macro/util"
 )
 
 type PasswordConfig struct {

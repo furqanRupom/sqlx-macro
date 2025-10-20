@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/furqanrupom/sqlx-macro/util"
+	"github.com/furqanrupom/sqlx-macro/pkg"
 )
 
 func (m *Middlewares) AuthJWT(next http.Handler) http.Handler {
@@ -20,7 +21,7 @@ func (m *Middlewares) AuthJWT(next http.Handler) http.Handler {
 			return
 		}
 		tokenSign := headerSplit[1]
-		_, err := util.VerifyToken(tokenSign, m.config.AuthConfig.SecretToken)
+		_, err := pkg.VerifyToken(tokenSign, m.config.AuthConfig.SecretToken)
 		if err != nil {
 			util.SendError(w, http.StatusBadRequest, "Token verify failed!")
 			return
