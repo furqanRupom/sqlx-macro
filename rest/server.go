@@ -46,8 +46,8 @@ func (server *Server) Start(){
 	// handlers
     server.userHandler.RegisterRoutes(mux, manager)
 	server.taskHandler.RegisterRoutes(mux,manager)
-	addr := "127.0.0.1:" + strconv.Itoa(server.conf.HttpPort)
-	fmt.Println("Server is running on port ",server.conf.HttpPort)
+	addr := "127.0.0.1:" + strconv.Itoa(server.conf.ServiceConfig.HttpPort)
+	fmt.Println("Server is running on port ",server.conf.ServiceConfig.HttpPort)
 	err := http.ListenAndServe(addr,wrappedMux)
 	if err != nil {
 		fmt.Println("Internal server error",err)
