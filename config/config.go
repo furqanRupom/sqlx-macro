@@ -13,7 +13,6 @@ type Config struct {
 	ServiceConfig  *ServiceConfig
 	AuthConfig     *AuthConfig
 	DBConfig       *DBConfig
-	PasswordConfig *PasswordConfig
 }
 
 func loadConfig() {
@@ -26,13 +25,11 @@ func loadConfig() {
 	serviceConfig := ServiceConf()
 	dbConfig := DBConf()
 	authConfig := AuthConf()
-	passwordConfig := PasswordConf()
 
 	config = &Config{
 		ServiceConfig:  serviceConfig,
 		AuthConfig:     authConfig,
 		DBConfig:       dbConfig,
-		PasswordConfig: passwordConfig,
 	}
 
 }
