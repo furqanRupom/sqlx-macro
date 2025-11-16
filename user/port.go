@@ -11,7 +11,7 @@ type UserRepo interface {
 
 type Service interface {
 	Register(u domain.User) (*domain.User, error)
-	Login(email string, password string) (string, error)
+	Login(email string, password string) (*domain.User, error)
 	Get(ID int) (*domain.User, error)
 	Update(domain.User) (*domain.User, error)
 	Delete(ID int) (*domain.User, error)

@@ -26,7 +26,10 @@ func NewUserRepo(db *sqlx.DB) *userRepo {
 func (r *userRepo) Register(user domain.User)(*domain.User,error) {
 	var exists bool
 	err := r.db.QueryRow(`SELECT EXISTS(SELECT 1 FROM users WHERE email=$1)`, user.Email).Scan(&exists)
-	if err == nil  && exists {
+	if err != nil {
+		return nil,err
+	}
+	if  exists {
 		return nil, errors.New("user already Exits")
 	}
 
@@ -48,8 +51,26 @@ func (r *userRepo) Register(user domain.User)(*domain.User,error) {
   return &user,nil
 }
 
-func (r *userRepo) Login(email string, password string)(string,error) {
-	return "", nil
+func (r *userRepo) Login(email string, password string)(*domain.User,error) {
+	var oldUser domain.User
+	  err := r.db.QueryRow(
+        `SELECT id, name, email, password FROM users WHERE email=$1`,
+        email,
+    ).Scan(&oldUser.ID, &oldUser.Name, &oldUser.Email, &oldUser.Password)
+	if err != nil {
+		return nil,err
+	}
+
+
+	compareHash,err := pkg.ComparePassword(password,oldUser.Password)
+	if err != nil {
+		return nil, err
+	}
+	if !compareHash {
+		return nil, errors.New("wrong password")
+	}
+	return &oldUser,nil
+	
 }
 func (r *userRepo) Get(ID int)(*domain.User,error) {
 	return nil, nil

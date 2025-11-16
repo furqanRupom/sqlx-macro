@@ -41,7 +41,7 @@ func Serve() {
 	userSvc := user.NewService(userRepo)
 
 	tskHandler := taskHandler.NewHandler(middleware,taskSvc)
-	usrHandler := userHandler.NewHandler(middleware,userSvc)
+	usrHandler := userHandler.NewHandler(middleware,userSvc,conf)
 
 	server := rest.NewServer(conf,usrHandler,tskHandler)
 	server.Start()

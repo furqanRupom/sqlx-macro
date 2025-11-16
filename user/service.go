@@ -15,7 +15,7 @@ func NewService(userRepo UserRepo) Service {
 func (s *service) Register(user domain.User) (*domain.User, error) {
 	return s.userRepo.Register(user)
 }
-func (s *service) Login(email string, password string) (string, error) {
+func (s *service) Login(email string, password string) (*domain.User, error) {
 	return s.userRepo.Login(email, password)
 }
 func (s *service) Get(ID int) (*domain.User, error) {
