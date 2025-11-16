@@ -1,9 +1,12 @@
 package repo
 
 import (
+	"errors"
+
 	"github.com/furqanrupom/sqlx-macro/domain"
 	"github.com/furqanrupom/sqlx-macro/user"
 	"github.com/jmoiron/sqlx"
+	"github.com/furqanrupom/sqlx-macro/pkg"
 )
 
 type UserRepo struct {
@@ -21,7 +24,28 @@ func NewUserRepo(db *sqlx.DB) *userRepo {
 }
 
 func (r *userRepo) Register(user domain.User)(*domain.User,error) {
-	return nil, nil
+	var exists bool
+	err := r.db.QueryRow(`SELECT EXISTS(SELECT 1 FROM users WHERE email=$1)`, user.Email).Scan(&exists)
+	if err == nil  && exists {
+		return nil, errors.New("user already Exits")
+	}
+
+	hashPassword,err := pkg.HashPassword(user.Password,pkg.Params)
+	if err != nil {
+		return nil, errors.New("password hashing failed")
+	}
+	user.Password = hashPassword
+	err = r.db.QueryRow(
+    `INSERT INTO users (name, email, password)
+     VALUES ($1, $2, $3)
+     RETURNING id`,
+    user.Name, user.Email, user.Password,
+   ).Scan(&user.ID)
+
+   if err !=  nil {
+	return nil, errors.New("user registaiton failed")
+   }
+  return &user,nil
 }
 
 func (r *userRepo) Login(email string, password string)(string,error) {
